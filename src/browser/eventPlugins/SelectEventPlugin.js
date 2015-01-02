@@ -177,12 +177,12 @@ var SelectEventPlugin = {
         return constructSelectEvent(nativeEvent);
 
       // Chrome and IE fire non-standard event when selection is changed (and
-      // sometimes when it hasn't).
+      // sometimes when it hasn't). IE fires selectionchange before input
+      // while Chrome fires in the opposite order.
       // Firefox doesn't support selectionchange, so check selection status
       // after each key entry. The selection changes after keydown and before
       // keyup, but we check on keydown as well in the case of holding down a
       // key, when multiple keydown events are fired but only one keyup is.
-      case topLevelTypes.topSelectionChange:
       case topLevelTypes.topKeyDown:
       case topLevelTypes.topKeyUp:
         return constructSelectEvent(nativeEvent);
