@@ -13976,6 +13976,10 @@ var activeElementID = null;
 var lastSelection = null;
 var mouseDown = false;
 
+function isIE() {
+  return window.navigator.userAgent.indexOf("MSIE ") >= 0;
+}
+
 /**
  * Get an object which is a unique representation of the current selection.
  *
@@ -14109,6 +14113,11 @@ var SelectEventPlugin = {
       // Chrome and IE fire non-standard event when selection is changed (and
       // sometimes when it hasn't). IE fires selectionchange before input
       // while Chrome fires in the opposite order.
+      case topLevelTypes.topSelectionChange:
+        if(!isIE()) {
+          return constructSelectEvent(nativeEvent);
+        }
+
       // Firefox doesn't support selectionchange, so check selection status
       // after each key entry. The selection changes after keydown and before
       // keyup, but we check on keydown as well in the case of holding down a
