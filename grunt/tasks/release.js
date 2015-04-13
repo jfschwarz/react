@@ -1,12 +1,9 @@
-// function calls get bound so "possible strict mode violations" aren't
-// jshint -W040
-
 'use strict';
 
 var grunt = require('grunt');
 
 var BOWER_PATH = '../react-bower/';
-var BOWER_GLOB = [BOWER_PATH + '*'];
+var BOWER_GLOB = [BOWER_PATH + '*.{js}'];
 var BOWER_FILES = [
   'react.js', 'react.min.js', 'JSXTransformer.js',
   'react-with-addons.js', 'react-with-addons.min.js'
@@ -33,7 +30,7 @@ function _gitCommitAndTag(cwd, commitMsg, tag, cb) {
   // `git add -u` to make sure we remove deleted files
   // `git commit -m {commitMsg}`
   // `git tag -a {tag}`
-  var opts = { cwd: cwd};
+  var opts = {cwd: cwd};
   var gitAddAll = {
     cmd: 'git',
     args: ['add', '*'],
@@ -59,8 +56,7 @@ function _gitCommitAndTag(cwd, commitMsg, tag, cb) {
       grunt.util.spawn(gitCommit, function() {
         if (tag) {
           grunt.util.spawn(gitTag, cb);
-        }
-        else {
+        } else {
           cb();
         }
       });
@@ -95,7 +91,7 @@ function bower() {
   // clean out the bower folder in case we're removing files
   var files = grunt.file.expand(BOWER_GLOB);
   files.forEach(function(file) {
-    grunt.file.delete(file, { force: true });
+    grunt.file.delete(file, {force: true});
   });
 
   // Update bower package version and save the file back.
@@ -117,7 +113,7 @@ function docs() {
 
   var files = grunt.file.expand(GH_PAGES_GLOB);
   files.forEach(function(file) {
-    grunt.file.delete(file, { force: true });
+    grunt.file.delete(file, {force: true});
   });
 
   grunt.file.copy('build/react-' + VERSION + '.zip', 'docs/downloads/react-' + VERSION + '.zip');
@@ -127,7 +123,7 @@ function docs() {
   var rakeOpts = {
     cmd: 'rake',
     args: ['release'],
-    opts: { cwd: 'docs' }
+    opts: {cwd: 'docs'}
   };
   grunt.util.spawn(rakeOpts, function() {
     // Commit the repo. We don't really care about tagging this.

@@ -1,5 +1,4 @@
-/* jshint multistr:true */
-/* jshint -W040 */
+/*eslint-disable no-multi-str */
 
 'use strict';
 
@@ -9,6 +8,7 @@ var grunt = require('grunt');
 var UglifyJS = require('uglify-js');
 var uglifyify = require('uglifyify');
 var derequire = require('derequire');
+var collapser = require('bundle-collapser/plugin');
 
 var SIMPLE_TEMPLATE =
 '/**\n\
@@ -19,7 +19,7 @@ var LICENSE_TEMPLATE =
 '/**\n\
  * @PACKAGE@ v@VERSION@\n\
  *\n\
- * Copyright 2013-2014, Facebook, Inc.\n\
+ * Copyright 2013-2015, Facebook, Inc.\n\
  * All rights reserved.\n\
  *\n\
  * This source code is licensed under the BSD-style license found in the\n\
@@ -29,7 +29,7 @@ var LICENSE_TEMPLATE =
  */';
 
 function minify(src) {
-  return UglifyJS.minify(src, { fromString: true }).code;
+  return UglifyJS.minify(src, {fromString: true}).code;
 }
 
 // TODO: move this out to another build step maybe.
@@ -58,6 +58,7 @@ var basic = {
   debug: false,
   standalone: 'React',
   transforms: [envify({NODE_ENV: 'development'})],
+  plugins: [collapser],
   after: [es3ify.transform, derequire, simpleBannerify]
 };
 
@@ -69,7 +70,11 @@ var min = {
   debug: false,
   standalone: 'React',
   transforms: [envify({NODE_ENV: 'production'}), uglifyify],
-  after: [es3ify.transform, derequire, minify, bannerify]
+  plugins: [collapser],
+  // No need to derequire because the minifier will mangle
+  // the "require" calls.
+
+  after: [es3ify.transform, /*derequire,*/ minify, bannerify]
 };
 
 var transformer = {
@@ -80,6 +85,11 @@ var transformer = {
   debug: false,
   standalone: 'JSXTransformer',
   transforms: [],
+  // Source-map-generator uses amdefine, which looks at the type of __dereq__.
+  // If it's not a string, it assumes something else (array of strings), but
+  // collapser passes a number; this would throw.
+
+  // plugins: [collapser],
   after: [es3ify.transform, derequire, simpleBannerify]
 };
 
@@ -92,6 +102,7 @@ var addons = {
   standalone: 'React',
   packageName: 'React (with addons)',
   transforms: [envify({NODE_ENV: 'development'})],
+  plugins: [collapser],
   after: [es3ify.transform, derequire, simpleBannerify]
 };
 
@@ -104,7 +115,11 @@ var addonsMin = {
   standalone: 'React',
   packageName: 'React (with addons)',
   transforms: [envify({NODE_ENV: 'production'}), uglifyify],
-  after: [es3ify.transform, derequire, minify, bannerify]
+  plugins: [collapser],
+  // No need to derequire because the minifier will mangle
+  // the "require" calls.
+
+  after: [es3ify.transform, /*derequire,*/ minify, bannerify]
 };
 
 var withCodeCoverageLogging = {
@@ -117,7 +132,8 @@ var withCodeCoverageLogging = {
   transforms: [
     envify({NODE_ENV: 'development'}),
     require('coverify')
-  ]
+  ],
+  plugins: [collapser]
 };
 
 module.exports = {

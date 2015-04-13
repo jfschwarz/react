@@ -53,7 +53,7 @@ These standard attributes are supported:
 
 ```
 accept acceptCharset accessKey action allowFullScreen allowTransparency alt
-async autoComplete autoPlay cellPadding cellSpacing charSet checked classID
+async autoComplete autoFocus autoPlay cellPadding cellSpacing charSet checked classID
 className cols colSpan content contentEditable contextMenu controls coords
 crossOrigin data dateTime defer dir disabled download draggable encType form
 formAction formEncType formMethod formNoValidate formTarget frameBorder height
@@ -69,7 +69,7 @@ In addition, the following non-standard attributes are supported:
 
 - `autoCapitalize autoCorrect` for Mobile Safari.
 - `property` for [Open Graph](http://ogp.me/) meta tags.
-- `itemProp itemScope itemType` for [HTML5 microdata](http://schema.org/docs/gs.html).
+- `itemProp itemScope itemType itemRef itemId` for [HTML5 microdata](http://schema.org/docs/gs.html).
 
 There is also the React-specific attribute `dangerouslySetInnerHTML` ([more here](/react/docs/special-non-dom-attributes.html)), used for directly inserting HTML strings into a component.
 

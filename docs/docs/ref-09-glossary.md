@@ -62,7 +62,7 @@ var root = div({ className: 'my-div' });
 React.render(root, document.body);
 ```
 
-React already have built-in factories for common HTML tags:
+React already has built-in factories for common HTML tags:
 
 ```javascript
 var root = React.DOM.ul({ className: 'my-list' },
@@ -76,6 +76,7 @@ If you are using JSX you have no need for factories. JSX already provides a conv
 ## React Nodes
 
 A `ReactNode` can be either:
+
 - `ReactElement`
 - `string` (aka `ReactText`)
 - `number` (aka `ReactText`)

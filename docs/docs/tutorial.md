@@ -5,7 +5,7 @@ prev: getting-started.html
 next: thinking-in-react.html
 ---
 
-We'll be building a simple, but realistic comments box that you can drop into a blog, a basic version of the realtime comments offered by Disqus, LiveFyre or Facebook comments.
+We'll be building a simple but realistic comments box that you can drop into a blog, a basic version of the realtime comments offered by Disqus, LiveFyre or Facebook comments.
 
 We'll provide:
 
@@ -23,18 +23,24 @@ It'll also have a few neat features:
 
 [It's all on GitHub.](https://github.com/reactjs/react-tutorial)
 
+### Running a server
+
+While it's not necessary to get started with this tutorial, later on we'll be adding functionality that requires `POST`ing to a running server. If this is something you are intimately familiar with and want to create your own server, please do. For the rest of you who might want to focus on learning about React without having to worry about the server-side aspects, we have written simple servers in a number of languages - JavaScript (using Node.js), Python, Ruby, Go, and PHP. These are all available on GitHub. You can [view the source](https://github.com/reactjs/react-tutorial/) or [download a zip file](https://github.com/reactjs/react-tutorial/archive/master.zip) to get started.
+
+To get started using the tutorial, just start editing `public/index.html`.
+
 ### Getting started
 
 For this tutorial, we'll use prebuilt JavaScript files on a CDN. Open up your favorite editor and create a new HTML document:
 
 ```html
-<!-- template.html -->
+<!-- index.html -->
 <html>
   <head>
     <title>Hello React</title>
-    <script src="http://fb.me/react-{{site.react_version}}.js"></script>
-    <script src="http://fb.me/JSXTransformer-{{site.react_version}}.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <script src="https://fb.me/react-{{site.react_version}}.js"></script>
+    <script src="https://fb.me/JSXTransformer-{{site.react_version}}.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
   </head>
   <body>
     <div id="content"></div>
@@ -160,32 +166,12 @@ var CommentBox = React.createClass({
 
 Notice how we're mixing HTML tags and components we've built. HTML components are regular React components, just like the ones you define, with one difference. The JSX compiler will automatically rewrite HTML tags to `React.createElement(tagName)` expressions and leave everything else alone. This is to prevent the pollution of the global namespace.
 
-### Component Properties
-
-Let's create our third component, `Comment`. We will want to pass it the author name and comment text so we can reuse the same code for each unique comment. First let's add some comments to the `CommentList`:
-
-```javascript{6-7}
-// tutorial4.js
-var CommentList = React.createClass({
-  render: function() {
-    return (
-      <div className="commentList">
-        <Comment author="Pete Hunt">This is one comment</Comment>
-        <Comment author="Jordan Walke">This is *another* comment</Comment>
-      </div>
-    );
-  }
-});
-```
-
-Note that we have passed some data from the parent `CommentList` component to the child `Comment` components. For example, we passed *Pete Hunt* (via an attribute) and *This is one comment* (via an XML-like child node) to the first `Comment`. Data passed from parent to children components is called **props**, short for properties.
-
 ### Using props
 
-Let's create the Comment component. Using **props** we will be able to read the data passed to it from the `CommentList`, and render some markup:
+Let's create the `Comment` component, which will depend on data passed in from it's parent. Data passed in from a parent component is available as a 'property' on the child component. These 'properties' are accessed through `this.props`. Using props we will be able to read the data passed to the `Comment` from the `CommentList`, and render some markup:
 
 ```javascript
-// tutorial5.js
+// tutorial4.js
 var Comment = React.createClass({
   render: function() {
     return (
@@ -202,6 +188,26 @@ var Comment = React.createClass({
 
 By surrounding a JavaScript expression in braces inside JSX (as either an attribute or child), you can drop text or React components into the tree. We access named attributes passed to the component as keys on `this.props` and any nested elements as `this.props.children`.
 
+### Component Properties
+
+Now that we have defined the `Comment` component, we will want to pass it the author name and comment text. This allows us to reuse the same code for each unique comment. Now let's add some comments within our `CommentList`:
+
+```javascript{6-7}
+// tutorial5.js
+var CommentList = React.createClass({
+  render: function() {
+    return (
+      <div className="commentList">
+        <Comment author="Pete Hunt">This is one comment</Comment>
+        <Comment author="Jordan Walke">This is *another* comment</Comment>
+      </div>
+    );
+  }
+});
+```
+
+Note that we have passed some data from the parent `CommentList` component to the child `Comment` components. For example, we passed *Pete Hunt* (via an attribute) and *This is one comment* (via an XML-like child node) to the first `Comment`. As noted above, the `Comment` component will access these 'properties' through `this.props.author`, and `this.props.children`.
+
 ### Adding Markdown
 
 Markdown is a simple way to format your text inline. For example, surrounding text with asterisks will make it emphasized.
@@ -209,13 +215,13 @@ Markdown is a simple way to format your text inline. For example, surrounding te
 First, add the third-party **Showdown** library to your application. This is a JavaScript library which takes Markdown text and converts it to raw HTML. This requires a script tag in your head (which we have already included in the React playground):
 
 ```html{7}
-<!-- template.html -->
+<!-- index.html -->
 <head>
   <title>Hello React</title>
-  <script src="http://fb.me/react-{{site.react_version}}.js"></script>
-  <script src="http://fb.me/JSXTransformer-{{site.react_version}}.js"></script>
-  <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+  <script src="https://fb.me/react-{{site.react_version}}.js"></script>
+  <script src="https://fb.me/JSXTransformer-{{site.react_version}}.js"></script>
+  <script src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
 </head>
 ```
 
@@ -379,7 +385,7 @@ When the component is first created, we want to GET some JSON from the server an
 
 We'll use jQuery to help make an asynchronous request to the server.
 
-Note: because this is becoming an AJAX application you'll need to develop your app using a web server rather than as a file sitting on your file system. The easiest way to do this is to run `python -m SimpleHTTPServer` in your application's directory.
+Note: because this is becoming an AJAX application you'll need to develop your app using a web server rather than as a file sitting on your file system. [As mentioned above](#running-a-server), we have provided several servers you can use [on GitHub](https://github.com/reactjs/react-tutorial/). They provide the functionality you need for the rest of this tutorial.
 
 ```javascript{6-17}
 // tutorial13.js
@@ -413,7 +419,7 @@ var CommentBox = React.createClass({
 
 Here, `componentDidMount` is a method called automatically by React when a component is rendered. The key to dynamic updates is the call to `this.setState()`. We replace the old array of comments with the new one from the server and the UI automatically updates itself. Because of this reactivity, it is only a minor change to add live updates. We will use simple polling here but you could easily use WebSockets or other technologies.
 
-```javascript{3,19-20,34}
+```javascript{3,14,19-20,34}
 // tutorial14.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -476,19 +482,19 @@ var CommentForm = React.createClass({
 
 Let's make the form interactive. When the user submits the form, we should clear it, submit a request to the server, and refresh the list of comments. To start, let's listen for the form's submit event and clear it.
 
-```javascript{3-14,17-19}
+```javascript{3-13,16-19}
 // tutorial16.js
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
-    var author = this.refs.author.getDOMNode().value.trim();
-    var text = this.refs.text.getDOMNode().value.trim();
+    var author = React.findDOMNode(this.refs.author).value.trim();
+    var text = React.findDOMNode(this.refs.text).value.trim();
     if (!text || !author) {
       return;
     }
     // TODO: send request to the server
-    this.refs.author.getDOMNode().value = '';
-    this.refs.text.getDOMNode().value = '';
+    React.findDOMNode(this.refs.author).value = '';
+    React.findDOMNode(this.refs.text).value = '';
     return;
   },
   render: function() {
@@ -511,7 +517,7 @@ Call `preventDefault()` on the event to prevent the browser's default action of 
 
 ##### Refs
 
-We use the `ref` attribute to assign a name to a child component and `this.refs` to reference the component. We can call `getDOMNode()` on a component to get the native browser DOM element.
+We use the `ref` attribute to assign a name to a child component and `this.refs` to reference the component. We can call `React.findDOMNode(component)` on a component to get the native browser DOM element.
 
 ##### Callbacks as props
 
@@ -563,14 +569,14 @@ Let's call the callback from the `CommentForm` when the user submits the form:
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
-    var author = this.refs.author.getDOMNode().value.trim();
-    var text = this.refs.text.getDOMNode().value.trim();
+    var author = React.findDOMNode(this.refs.author).value.trim();
+    var text = React.findDOMNode(this.refs.text).value.trim();
     if (!text || !author) {
       return;
     }
     this.props.onCommentSubmit({author: author, text: text});
-    this.refs.author.getDOMNode().value = '';
-    this.refs.text.getDOMNode().value = '';
+    React.findDOMNode(this.refs.author).value = '';
+    React.findDOMNode(this.refs.text).value = '';
     return;
   },
   render: function() {

@@ -8,16 +8,25 @@ redirect_from: "/docs/reference.html"
 
 ## React
 
-`React` is the entry point to the React framework. If you're using one of the prebuilt packages it's available as a global; if you're using CommonJS modules you can `require()` it.
+`React` is the entry point to the React library. If you're using one of the prebuilt packages it's available as a global; if you're using CommonJS modules you can `require()` it.
+
+
+### React.Component
+
+```javascript
+class Component
+```
+
+This is the base class for React Components when they're defined using ES6 classes. See [Reusable Components](/react/docs/reusable-components.html#es6-classes) for how to use ES6 classes with React. For what methods are actually provided by the base class, see the [Component API](/react/docs/component-api.html).
 
 
 ### React.createClass
 
 ```javascript
-function createClass(object specification)
+ReactClass createClass(object specification)
 ```
 
-Create a component given a specification. A component implements a `render` method which returns **one single** child. That child may have an arbitrarily deep child structure. One thing that makes components different than standard prototypal classes is that you don't need to call new on them. They are convenience wrappers that construct backing instances (via new) for you.
+Create a component class, given a specification. A component implements a `render` method which returns **one single** child. That child may have an arbitrarily deep child structure. One thing that makes components different than standard prototypal classes is that you don't need to call new on them. They are convenience wrappers that construct backing instances (via new) for you.
 
 For more information about the specification object, see [Component Specs and Lifecycle](/react/docs/component-specs.html).
 
@@ -25,16 +34,41 @@ For more information about the specification object, see [Component Specs and Li
 ### React.createElement
 
 ```javascript
-function createElement(
-  string/ReactComponent type,
+ReactElement createElement(
+  string/ReactClass type,
   [object props],
   [children ...]
 )
 ```
 
-Create and return a new ReactElement of the given type. The type argument can be either an
-html tag name string (eg. 'div', 'span', etc), or a `ReactComponent` class that was created
-with `React.createClass`.
+Create and return a new `ReactElement` of the given type. The type argument can be either an
+html tag name string (eg. 'div', 'span', etc), or a `ReactClass` (created via `React.createClass`).
+
+
+### React.cloneElement
+
+```
+ReactElement cloneElement(
+  ReactElement element,
+  [object props],
+  [children ...]
+)
+```
+
+Clone and return a new `ReactElement` using `element` as the starting point. The resulting element will have the original element's props with the new props merged in shallowly. New children will replace existing children. Unlike `React.addons.cloneWithProps`, `key` and `ref` from the original element will be preserved. There is no special behavior for merging any props (unlike `cloneWithProps`). See the [v0.13 RC2 blog post](/react/blog/2015/03/03/react-v0.13-rc2.html) for additional details.
+
+
+### React.createFactory
+
+```javascript
+factoryFunction createFactory(
+  string/ReactClass type
+)
+```
+
+Return a function that produces ReactElements of a given type. Like `React.createElement`,
+the type argument can be either an html tag name string (eg. 'div', 'span', etc), or a
+`ReactClass`.
 
 
 ### React.render
@@ -96,6 +130,14 @@ boolean isValidElement(* object)
 ```
 
 Verifies the object is a ReactElement.
+
+
+### React.findDOMNode
+
+```javascript
+DOMElement findDOMNode(ReactComponent component)
+```
+If this component has been mounted into the DOM, this returns the corresponding native browser DOM element. This method is useful for reading values out of the DOM, such as form field values and performing DOM measurements. When `render` returns `null` or `false`, `findDOMNode` returns `null`.
 
 
 ### React.DOM

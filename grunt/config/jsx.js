@@ -1,19 +1,12 @@
 'use strict';
 
+var assign = require('../../src/stubs/Object.assign');
 var grunt = require('grunt');
-var _ = require('lodash');
 
 var rootIDs = [
-  "React",
-  "ReactWithAddons"
+  'React',
+  'ReactWithAddons'
 ];
-
-// TODO: stop packaging these libraries
-rootIDs = rootIDs.concat([
-  "merge",
-  "mergeInto",
-  "copyProperties"
-]);
 
 var normal = {
   rootIDs: rootIDs,
@@ -23,23 +16,23 @@ var normal = {
       constants: {}
     };
   },
-  sourceDir: "src",
-  outputDir: "build/modules"
+  sourceDir: 'src',
+  outputDir: 'build/modules'
 };
 
 
 var test = {
   rootIDs: rootIDs.concat([
-    "test/all.js",
-    "**/__tests__/*.js"
+    'test/all.js',
+    '**/__tests__/*.js'
   ]),
   getConfig: function() {
-    return _.merge({}, normal.getConfig(), {
+    return assign({}, normal.getConfig(), {
       mocking: true
     });
   },
-  sourceDir: "src",
-  outputDir: "build/modules"
+  sourceDir: 'src',
+  outputDir: 'build/modules'
 };
 
 

@@ -24,7 +24,7 @@ The rest of this tutorial explains best practices. It uses JSX and experimental 
 
 ## Manual Transfer
 
-Most of the time you should explicitly pass the properties down. That ensures that you only exposes a subset of the inner API, one that you know will work.
+Most of the time you should explicitly pass the properties down. That ensures that you only expose a subset of the inner API, one that you know will work.
 
 ```javascript
 var FancyCheckbox = React.createClass({
@@ -48,6 +48,10 @@ React.render(
 But what about the `name` prop? Or the `title` prop? Or `onMouseOver`?
 
 ## Transferring with `...` in JSX
+
+> NOTE:
+> 
+> In the example below, the `--harmony ` flag is required as this syntax is an experimental ES7 syntax. If using the in-browser JSX transformer, simply open your script with `<script type="text/jsx;harmony=true">`. See the [Rest and Spread Properties ...](http://facebook.github.io/react/docs/transferring-props.html#rest-and-spread-properties-...) section below for more details.
 
 Sometimes it's fragile and tedious to pass every property along. In that case you can use [destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) with rest properties to extract a set of unknown properties.
 

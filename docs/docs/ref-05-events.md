@@ -17,14 +17,14 @@ boolean bubbles
 boolean cancelable
 DOMEventTarget currentTarget
 boolean defaultPrevented
-Number eventPhase
+number eventPhase
 boolean isTrusted
 DOMEvent nativeEvent
 void preventDefault()
 void stopPropagation()
 DOMEventTarget target
-Date timeStamp
-String type
+number timeStamp
+string type
 ```
 
 > Note:
@@ -112,10 +112,12 @@ For more information about the onChange event, see [Forms](/react/docs/forms.htm
 Event names:
 
 ```
-onClick onDoubleClick onDrag onDragEnd onDragEnter onDragExit onDragLeave
-onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave
+onClick onContextMenu onDoubleClick onDrag onDragEnd onDragEnter onDragExit
+onDragLeave onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave
 onMouseMove onMouseOut onMouseOver onMouseUp
 ```
+
+The `onMouseEnter` and `onMouseLeave` events propagate from the component being left to the one being entered instead of ordinary bubbling and do not have a capture phase.
 
 Properties:
 

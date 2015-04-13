@@ -1,5 +1,5 @@
 /**
- * Copyright 2013-2014, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -9,7 +9,7 @@
  * @providesModule SelectEventPlugin
  */
 
-"use strict";
+'use strict';
 
 var EventConstants = require('EventConstants');
 var EventPropagators = require('EventPropagators');
@@ -98,8 +98,8 @@ function constructSelectEvent(nativeEvent) {
   // won't dispatch.
   if (mouseDown ||
       activeElement == null ||
-      activeElement != getActiveElement()) {
-    return;
+      activeElement !== getActiveElement()) {
+    return null;
   }
 
   // Only fire when selection has actually changed.
@@ -180,18 +180,6 @@ var SelectEventPlugin = {
         mouseDown = false;
         return constructSelectEvent(nativeEvent);
 
-      // Chrome and IE fire non-standard event when selection is changed (and
-      // sometimes when it hasn't). IE fires selectionchange before input
-      // while Chrome fires in the opposite order.
-      case topLevelTypes.topSelectionChange:
-        if(!isIE()) {
-          return constructSelectEvent(nativeEvent);
-        }
-
-      // Firefox doesn't support selectionchange, so check selection status
-      // after each key entry. The selection changes after keydown and before
-      // keyup, but we check on keydown as well in the case of holding down a
-      // key, when multiple keydown events are fired but only one keyup is.
       case topLevelTypes.topKeyDown:
       case topLevelTypes.topKeyUp:
         return constructSelectEvent(nativeEvent);
