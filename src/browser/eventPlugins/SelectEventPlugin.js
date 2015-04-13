@@ -46,10 +46,6 @@ var activeElementID = null;
 var lastSelection = null;
 var mouseDown = false;
 
-function isIE() {
-  return window.navigator.userAgent.indexOf("MSIE ") >= 0;
-}
-
 /**
  * Get an object which is a unique representation of the current selection.
  *
