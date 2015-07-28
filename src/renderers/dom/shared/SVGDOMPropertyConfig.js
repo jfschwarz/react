@@ -46,6 +46,8 @@ var SVGDOMPropertyConfig = {
     points: MUST_USE_ATTRIBUTE,
     preserveAspectRatio: MUST_USE_ATTRIBUTE,
     r: MUST_USE_ATTRIBUTE,
+    refX: MUST_USE_ATTRIBUTE,
+    refY: MUST_USE_ATTRIBUTE,
     rx: MUST_USE_ATTRIBUTE,
     ry: MUST_USE_ATTRIBUTE,
     spreadMethod: MUST_USE_ATTRIBUTE,
