@@ -41,6 +41,7 @@ var SVGDOMPropertyConfig = {
     markerStart: MUST_USE_ATTRIBUTE,
     offset: MUST_USE_ATTRIBUTE,
     opacity: MUST_USE_ATTRIBUTE,
+    orient: MUST_USE_ATTRIBUTE,
     patternContentUnits: MUST_USE_ATTRIBUTE,
     patternUnits: MUST_USE_ATTRIBUTE,
     points: MUST_USE_ATTRIBUTE,
